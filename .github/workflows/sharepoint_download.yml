@@ -1,0 +1,24 @@
+name: Download SharePoint File
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install Office365-REST-Python-Client
+
+      - name: Run download script
+        env:
+          SHAREPOINT_SITE_URL: ${{ secrets.SHAREPOINT_SITE_URL }}
+          SHAREPOINT_CLIENT_ID: ${{ secrets.SHAREPOINT_CLIENT_ID }}
+          SHAREPOINT_CLIENT_SECRET: ${{ secrets.SHAREPOINT_CLIENT_SECRET }}
+          SHAREPOINT_FILE_URL: ${{ secrets.SHAREPOINT_FILE_URL }}
+          LOCAL_SAVE_PATH: ${{ secrets.LOCAL_SAVE_PATH }}
+        run: python download_sharepoint.py
